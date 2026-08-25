@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Скачать видео с Ютуба, TikTok без водяных знаков, VK, Reels — SaveMedia PRO</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+        body { background: #0b0f19; color: #f8fafc; display: flex; flex-direction: column; align-items: center; min-height: 100vh; padding: 20px; }
+        .container { max-width: 520px; width: 100%; text-align: center; margin-top: 30px; }
+        .logo { font-size: 2.3rem; font-weight: 800; background: linear-gradient(135deg, #38bdf8, #818cf8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 8px; }
+        p.subtitle { color: #94a3b8; font-size: 0.95rem; margin-bottom: 20px; line-height: 1.4; }
+        .badge { background: #1e293b; border: 1px solid #334155; padding: 8px 16px; border-radius: 99px; display: inline-block; font-size: 0.85rem; color: #fbbf24; margin-bottom: 20px; font-weight: 600; }
+        .input-box { display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px; }
+        input[type="text"] { width: 100%; padding: 16px; border-radius: 12px; border: 1px solid #334155; background: #1e293b; color: #fff; font-size: 1rem; outline: none; }
+        button.btn-main { width: 100%; padding: 16px; border-radius: 12px; border: none; background: #0284c7; color: #fff; font-size: 1.05rem; font-weight: 700; cursor: pointer; }
+        #loader { display: none; margin-top: 20px; color: #38bdf8; font-weight: 600; }
+        #result { display: none; margin-top: 20px; background: #1e293b; border: 1px solid #334155; padding: 20px; border-radius: 12px; }
+        .btn-download { display: inline-block; width: 100%; padding: 14px; background: #22c55e; color: #fff; text-decoration: none; border-radius: 10px; font-weight: 700; margin-top: 10px; text-align: center; }
+        .paywall { display: none; margin-top: 20px; background: #1e293b; border: 2px solid #ef4444; border-radius: 16px; padding: 24px; text-align: center; }
+        .paywall h3 { color: #ef4444; font-size: 1.4rem; margin-bottom: 8px; }
+        .paywall p { color: #cbd5e1; font-size: 0.9rem; line-height: 1.4; margin-bottom: 16px; }
+        .price-tag { font-size: 2.2rem; font-weight: 800; color: #fbbf24; margin-bottom: 16px; }
+        .price-tag span { font-size: 0.9rem; color: #94a3b8; font-weight: 400; }
+        .btn-pay { display: inline-block; width: 100%; padding: 16px; background: #22c55e; color: #fff; text-decoration: none; border-radius: 12px; font-weight: 700; font-size: 1.05rem; }
+        .seo-text { margin-top: 40px; text-align: left; background: #1e293b; padding: 20px; border-radius: 12px; border: 1px solid #334155; font-size: 0.85rem; color: #94a3b8; line-height: 1.6; }
+        .footer-legal { margin-top: 30px; border-top: 1px solid #334155; padding-top: 20px; font-size: 0.75rem; color: #64748b; text-align: center; line-height: 1.5; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">SaveMedia PRO</div>
+        <p class="subtitle">Скачать видео с Ютуба, TikTok без водяных знаков, VK и Reels</p>
+        <div class="badge" id="limitBadge">Осталось бесплатных скачиваний: 5</div>
+        <div class="input-box">
+            <input type="text" id="videoUrl" placeholder="Вставьте ссылку на видео...">
+            <button class="btn-main" onclick="processVideo()">Скачать видео</button>
+        </div>
+        <div id="loader">Загрузка и обработка...</div>
+        <div id="result">
+            <p style="color: #22c55e; font-weight: 700; margin-bottom: 10px;">✓ Видео готово к скачиванию!</p>
+            <a id="downloadBtn" class="btn-download" href="#" target="_blank">Сохранить файл</a>
+        </div>
+        <div class="paywall" id="paywall">
+            <h3>Дневной лимит исчерпан! ⚠️</h3>
+            <p>Вы использовали 5 бесплатных скачиваний на сегодня.<br>Оформите PRO-доступ, чтобы скачивать без ограничений!</p>
+            <div class="price-tag">249 ₽ <span>/ месяц</span></div>
+            <a href="#" id="payLink" target="_blank" class="btn-pay">Оформить PRO-доступ за 249 ₽</a>
+        </div>
+        <div class="seo-text">
+            <h2>Как скачать видео без водяных знаков?</h2>
+            <p>Наш сервис позволяет быстро и бесплатно скачать видео с Ютуба, ролики из TikTok без водяного знака, видео из VK и Instagram Reels в высоком качестве 4K и HD.</p>
+        </div>
+        <div class="footer-legal">
+            <p>Самозанятый (Плательщик НПД)</p>
+            <p>Email для связи: misha24xm1nd@gmail.com</p>
+            <p>© SaveMedia PRO. Все права защищены.</p>
+        </div>
+    </div>
+    <script>
+        const MAX_DAILY_LIMIT = 5;
+        function getUserData() {
+            const today = new Date().toDateString();
+            const data = JSON.parse(localStorage.getItem('savemedia_data') || '{}');
+            if (data.date !== today) return { date: today, count: 0, isPro: false };
+            return data;
+        }
+        function updateBadge() {
+            const data = getUserData();
+            const badge = document.getElementById('limitBadge');
+            if (data.isPro) {
+                badge.innerText = "У вас включен PRO-доступ (Безлимит) 👑";
+                badge.style.color = "#22c55e";
+            } else {
+                const left = MAX_DAILY_LIMIT - data.count;
+                badge.innerText = Осталось бесплатных скачиваний сегодня: ${left > 0 ? left : 0};
+            }
+        }
+        async function processVideo() {
+            const url = document.getElementById('videoUrl').value.trim();
+            const loader = document.getElementById('loader');
+            const result = document.getElementById('result');
+            const paywall = document.getElementById('paywall');
+            const downloadBtn = document.getElementById('downloadBtn');
+            if (!url) return alert('Пожалуйста, вставьте ссылку на видео!');
+            let data = getUserData();
+            if (!data.isPro && data.count >= MAX_DAILY_LIMIT) {
+                paywall.style.display = 'block';
+                result.style.display = 'none';
+                return;
+            }
+            loader.style.display = 'block';
+            result.style.display = 'none';
+            paywall.style.display = 'none';
+            try {
+                const res = await fetch('https://api.cobalt.tools/api/json', {
+                    method: 'POST',
+                    headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ url: url })
+                });
+                const resData = await res.json();
+                if (resData.url) {
+                    downloadBtn.href = resData.url;
+                    result.style.display = 'block';
+                    if (!data.isPro) {
+                        data.count += 1;
+                        localStorage.setItem('savemedia_data', JSON.stringify(data));
+                        updateBadge();
+                    }
+                } else { alert('Не удалось обработать ссылку.'); }
+            } catch (e) { alert('Ошибка сервера или неверная ссылка.'); }
+            finally { loader.style.display = 'none'; }
+        }
+        updateBadge();
+    </script>
+</body>
+</html>
