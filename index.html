@@ -4,6 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SaveMedia — Скачать видео без водяных знаков</title>
+    
+    <!-- Подключение Рекламной сети Яндекса (РСЯ) -->
+    <script>window.yaContextCb=window.yaContextCb||[]</script>
+    <script src="https://yandex.ru/ads/system/context.js" async></script>
+
     <style>
         :root {
             --bg: #0d0e12;
@@ -14,7 +19,6 @@
             --text: #f0f0f2;
             --muted: #8b8f9d;
             --accent: #6366f1;
-            --accent-hover: #4f46e5;
             --pro-gold: #f59e0b;
             --success: #10b981;
         }
@@ -48,7 +52,7 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin-bottom: 40px;
+            margin-bottom: 32px;
         }
 
         .brand {
@@ -260,10 +264,42 @@
             margin-bottom: 14px;
         }
 
+        /* Контейнеры под рекламу */
+        .ad-container {
+            width: 100%;
+            margin: 24px 0;
+            min-height: 90px;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px dashed var(--border);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #444;
+            font-size: 0.75rem;
+        }
+
+        .seo-section {
+            margin-top: 32px;
+            font-size: 0.85rem;
+            color: var(--muted);
+            line-height: 1.6;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 20px;
+        }
+
+        .seo-section h2 {
+            font-size: 1rem;
+            color: #fff;
+            margin-bottom: 8px;
+        }
+
         footer {
-            margin-top: 60px;
+            margin-top: 40px;
             text-align: center;
-            font-size: 0.8rem;
+            font-size: 0.78rem;
             color: var(--muted);
             line-height: 1.6;
         }
@@ -273,11 +309,6 @@
             text-decoration: none;
             font-weight: 500;
             border-bottom: 1px solid var(--border-bright);
-            transition: border-color 0.2s;
-        }
-
-        .creator-link:hover {
-            border-color: #fff;
         }
     </style>
 </head>
@@ -310,7 +341,7 @@
             <div class="paywall" id="paywall">
                 <h3>Дневной лимит исчерпан</h3>
                 <p>Вы использовали 5 бесплатных скачиваний на сегодня. Оформите PRO для снятия всех ограничений.</p>
-                <a href="#" class="btn-upgrade" style="display: block; text-align: center; padding: 12px;">Оформить PRO за 249 ₽</a>
+                <a href="#" class="btn-upgrade pay-link-node" style="display: block; text-align: center; padding: 12px;">Оформить PRO за 249 ₽</a>
             </div>
 
             <div class="pro-upgrade-card" id="proBanner">
@@ -318,18 +349,50 @@
                     <h4>Нужен безлимит?</h4>
                     <p>Скачивайте без дневных ограничений и капч.</p>
                 </div>
-                <a href="#" class="btn-upgrade">Перейти на PRO</a>
+                <a href="#" class="btn-upgrade pay-link-node">Перейти на PRO</a>
             </div>
 
             <div class="limit-info">
                 <span>Дневной лимит:</span>
-                <span id="limitBadge" style="color: var(--text); font-weight: 600;">5 / 5 осталось</span>
+                <span id="limitBadge" style="color: var(--text); font-weight: 600;">5 из 5 осталось</span>
             </div>
         </main>
 
+        <!-- РЕКЛАМНЫЙ БЛОК №1 (Под главной карточкой) -->
+        <div class="ad-container">
+            <div id="yandex_rtb_R-A-1"></div>
+            <script>
+                window.yaContextCb.push(()=>{
+                    Ya.Context.AdvManager.render({
+                        "blockId": "R-A-1", // Заменится на ваш ID из РСЯ
+                        "renderTo": "yandex_rtb_R-A-1"
+                    })
+                })
+            </script>
+        </div>
+
+        <section class="seo-section">
+            <h2>О сервисе и PRO-подписке</h2>
+            <p>SaveMedia — бесплатный онлайн-сервис для быстрой загрузки медиафайлов без потери качества. Каждому пользователю предоставляется 5 бесплатных загрузок в сутки.</p>
+            <p style="margin-top: 10px;"><strong>Цифровая услуга «PRO-подписка» (249 ₽/мес):</strong> снимает суточный лимит и предоставляет безлимитный доступ к сохранению видеофайлов. Активация происходит автоматически сразу после завершения оплаты.</p>
+        </section>
+
+        <!-- РЕКЛАМНЫЙ БЛОК №2 (Над подвалом) -->
+        <div class="ad-container">
+            <div id="yandex_rtb_R-A-2"></div>
+            <script>
+                window.yaContextCb.push(()=>{
+                    Ya.Context.AdvManager.render({
+                        "blockId": "R-A-2", // Заменится на ваш ID из РСЯ
+                        "renderTo": "yandex_rtb_R-A-2"
+                    })
+                })
+            </script>
+        </div>
+
         <footer>
             <p>Автор проекта: <a href="https://t.me/+jYr3-bjDM8xlODIy" target="_blank" class="creator-link">Telegram-канал</a></p>
-            <p style="margin-top: 4px;">Самозанятый Шуйский Михаил Александрович | ИНН 616114917309 | misha24xm1nd@gmail.com</p>
+            <p style="margin-top: 4px;">Самозанятый (Плательщик НПД) | misha24xm1nd@gmail.com</p>
             <p style="margin-top: 2px;">© SaveMedia. Все права защищены.</p>
         </footer>
     </div>
@@ -337,10 +400,21 @@
     <script>
         const MAX_DAILY_LIMIT = 5;
 
+        // Авто-активация PRO при возврате с оплаты
+        (function checkPaymentSuccess() {
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('payment') === 'success') {
+                const data = { date: new Date().toDateString(), count: 0, isPro: true };
+                localStorage.setItem('savemedia_data', JSON.stringify(data));
+                window.history.replaceState({}, document.title, window.location.pathname);
+                alert("🎉 Оплата прошла успешно! PRO-статус активирован.");
+            }
+        })();
+
         function getUserData() {
             const today = new Date().toDateString();
             const data = JSON.parse(localStorage.getItem('savemedia_data') || '{}');
-            if (data.date !== today) return { date: today, count: 0, isPro: false };
+            if (data.date !== today && !data.isPro) return { date: today, count: 0, isPro: false };
             return data;
         }
 
@@ -353,8 +427,8 @@
             if (data.isPro) {
                 badge.innerText = "Безлимит (PRO)";
                 badge.style.color = "var(--success)";
-                topBtn.style.display = "none";
-                proBanner.style.display = "none";
+                if (topBtn) topBtn.style.display = "none";
+                if (proBanner) proBanner.style.display = "none";
             } else {
                 const left = MAX_DAILY_LIMIT - data.count;
                 badge.innerText = `${left > 0 ? left : 0} из ${MAX_DAILY_LIMIT} осталось`;
