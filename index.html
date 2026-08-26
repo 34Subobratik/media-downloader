@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SaveMedia — Скачать видео и медиа бесплатно</title>
-    <meta name="description" content="Удобный онлайн-сервис для быстрого скачивания видео и фото в высоком качестве. Без регистрации и сбора данных.">
+    <title>SaveMedia — Онлайн загрузчик медиафайлов и видео</title>
+    <meta name="description" content="Быстрый онлайн-сервис для скачивания видео, фото и аудио без потери качества. Поддержка Full HD и 4K.">
 
-    <!-- Open Graph (Превью для соцсетей) -->
-    <meta property="og:title" content="SaveMedia — Загрузчик медиафайлов">
-    <meta property="og:description" content="Быстрое скачивание медиафайлов без потери качества.">
+    <!-- Open Graph -->
+    <meta property="og:title" content="SaveMedia — Сервис скачивания медиа">
+    <meta property="og:description" content="Скачивайте медиафайлы в высоком качестве без ограничений.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://hookforge.ru/">
 
@@ -18,15 +18,15 @@
 
     <style>
         :root {
-            --bg-color: #f5f6f8;
+            --bg-color: #f7f8fa;
             --card-bg: #ffffff;
-            --text-main: #19191a;
-            --text-muted: #76787a;
-            --accent-color: #fc3f1d; /* Акцентный цвет Яндекса */
-            --accent-hover: #e03517;
-            --border-color: #e0e2e8;
-            --shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            --text-main: #1a1a1b;
+            --text-muted: #626468;
+            --accent-red: #fc3f1d;
+            --accent-blue: #005bff;
+            --border-color: #e2e4ea;
             --radius: 16px;
+            --shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
         }
 
         * {
@@ -39,24 +39,24 @@
         body {
             background-color: var(--bg-color);
             color: var(--text-main);
+            line-height: 1.6;
             display: flex;
             flex-direction: column;
             min-height: 100vh;
-            align-items: center;
         }
 
         header {
-            width: 100%;
             background: var(--card-bg);
             border-bottom: 1px solid var(--border-color);
             padding: 16px 24px;
-            display: flex;
-            justify-content: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
         }
 
         .header-container {
-            max-width: 900px;
-            width: 100%;
+            max-width: 1000px;
+            margin: 0 auto;
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -64,152 +64,283 @@
 
         .logo {
             font-size: 22px;
-            font-weight: 700;
+            font-weight: 800;
             color: var(--text-main);
             text-decoration: none;
+        }
+
+        .logo span { color: var(--accent-red); }
+
+        nav {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--text-muted);
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        nav a:hover { color: var(--text-main); }
+
+        .btn-pro-nav {
+            background: #10b981;
+            color: #fff !important;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-weight: 600;
+        }
+
+        main {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 32px 20px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 32px;
+        }
+
+        /* Загрузчик */
+        .hero-card {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            padding: 40px 32px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+            text-align: center;
+        }
+
+        .hero-card h1 {
+            font-size: 32px;
+            font-weight: 800;
+            margin-bottom: 12px;
+        }
+
+        .hero-card p {
+            color: var(--text-muted);
+            margin-bottom: 28px;
+            font-size: 16px;
+        }
+
+        .downloader-form {
+            display: flex;
+            gap: 12px;
+            max-width: 680px;
+            margin: 0 auto;
+        }
+
+        .downloader-form input {
+            flex: 1;
+            padding: 16px 20px;
+            font-size: 16px;
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            outline: none;
+            transition: 0.2s;
+        }
+
+        .downloader-form input:focus {
+            border-color: var(--accent-blue);
+        }
+
+        .downloader-form button {
+            background: var(--accent-red);
+            color: #fff;
+            border: none;
+            padding: 16px 32px;
+            font-size: 16px;
+            font-weight: 700;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .downloader-form button:hover {
+            opacity: 0.9;
+        }
+
+        /* РСЯ Блок */
+        .ad-box {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            padding: 20px;
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow);
+            text-align: center;
+        }
+
+        .ad-title {
+            font-size: 11px;
+            color: #a0a2a6;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 12px;
+            text-align: left;
+        }
+
+        /* Описание продукта */
+        .section-title {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+
+        .info-card {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            padding: 32px;
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow);
+        }
+
+        .steps-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .step-item {
+            background: #f9fafb;
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+        }
+
+        .step-number {
+            font-size: 20px;
+            font-weight: 800;
+            color: var(--accent-blue);
+            margin-bottom: 8px;
+        }
+
+        /* Тарифы для ЮKassa */
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+        }
+
+        .price-card {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            padding: 32px;
+            border: 2px solid var(--border-color);
+            box-shadow: var(--shadow);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .price-card.featured {
+            border-color: var(--accent-blue);
+            position: relative;
+        }
+
+        .badge {
+            position: absolute;
+            top: -12px;
+            right: 24px;
+            background: var(--accent-blue);
+            color: #fff;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .price-header h3 { font-size: 22px; margin-bottom: 8px; }
+        .price-amount { font-size: 36px; font-weight: 800; margin: 16px 0; }
+        .price-amount span { font-size: 16px; font-weight: 400; color: var(--text-muted); }
+
+        .price-features {
+            list-style: none;
+            margin-bottom: 24px;
+        }
+
+        .price-features li {
+            margin-bottom: 10px;
+            font-size: 15px;
+            color: var(--text-muted);
             display: flex;
             align-items: center;
             gap: 8px;
         }
 
-        .logo span {
-            color: var(--accent-color);
+        .price-features li::before {
+            content: "✓";
+            color: #10b981;
+            font-weight: bold;
         }
 
-        main {
-            max-width: 800px;
+        .btn-pay {
             width: 100%;
-            padding: 40px 20px;
+            background: var(--accent-blue);
+            color: #fff;
+            padding: 14px;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+            display: block;
+        }
+
+        .btn-pay:hover { opacity: 0.9; }
+
+        /* Юридический футер */
+        footer {
+            background: var(--card-bg);
+            border-top: 1px solid var(--border-color);
+            padding: 40px 20px 20px;
+            margin-top: 40px;
+        }
+
+        .footer-container {
+            max-width: 1000px;
+            margin: 0 auto;
             display: flex;
             flex-direction: column;
             gap: 24px;
-            flex: 1;
         }
 
-        .downloader-card {
-            background: var(--card-bg);
-            border-radius: var(--radius);
-            padding: 32px;
-            box-shadow: var(--shadow);
-            border: 1px solid var(--border-color);
-            text-align: center;
-        }
-
-        .downloader-card h1 {
-            font-size: 28px;
-            margin-bottom: 8px;
-        }
-
-        .downloader-card p {
+        .footer-info {
+            font-size: 14px;
             color: var(--text-muted);
-            margin-bottom: 24px;
-            font-size: 15px;
+            line-height: 1.8;
         }
 
-        .input-group {
+        .footer-links {
             display: flex;
-            gap: 12px;
+            gap: 20px;
             flex-wrap: wrap;
         }
 
-        .input-group input {
-            flex: 1;
-            min-width: 260px;
-            padding: 14px 18px;
-            font-size: 16px;
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            outline: none;
-            transition: border-color 0.2s;
-            background: #fafbfc;
-        }
-
-        .input-group input:focus {
-            border-color: #999;
-            background: #fff;
-        }
-
-        .input-group button {
-            background: var(--accent-color);
-            color: #fff;
-            border: none;
-            padding: 14px 28px;
-            font-size: 16px;
-            font-weight: 600;
-            border-radius: 12px;
-            cursor: pointer;
-            transition: background 0.2s;
-        }
-
-        .input-group button:hover {
-            background: var(--accent-hover);
-        }
-
-        /* Контейнер под рекламу РСЯ */
-        .ad-wrapper {
-            background: var(--card-bg);
-            border-radius: var(--radius);
-            padding: 16px;
-            box-shadow: var(--shadow);
-            border: 1px solid var(--border-color);
-            min-height: 250px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-        }
-
-        .ad-label {
-            font-size: 11px;
-            color: #b0b3b8;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            align-self: flex-start;
-            margin-bottom: 8px;
-        }
-
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 16px;
-        }
-
-        .feature-item {
-            background: var(--card-bg);
-            padding: 20px;
-            border-radius: var(--radius);
-            border: 1px solid var(--border-color);
-        }
-
-        .feature-item h3 {
-            font-size: 16px;
-            margin-bottom: 6px;
-        }
-
-        .feature-item p {
-            font-size: 14px;
-            color: var(--text-muted);
-            line-height: 1.4;
-        }
-
-        footer {
-            width: 100%;
-            text-align: center;
-            padding: 24px;
+        .footer-links a {
             color: var(--text-muted);
             font-size: 13px;
-            border-top: 1px solid var(--border-color);
-            background: var(--card-bg);
+            text-decoration: none;
         }
 
-        @media (max-width: 600px) {
-            .downloader-card {
-                padding: 20px;
-            }
-            .input-group button {
-                width: 100%;
-            }
+        .footer-links a:hover { text-decoration: underline; }
+
+        .footer-copyright {
+            border-top: 1px solid var(--border-color);
+            padding-top: 20px;
+            font-size: 13px;
+            color: #a0a2a6;
+            text-align: center;
+        }
+
+        @media (max-width: 640px) {
+            .downloader-form { flex-direction: column; }
+            .downloader-form button { width: 100%; }
         }
     </style>
 </head>
@@ -218,25 +349,30 @@
     <header>
         <div class="header-container">
             <a href="/" class="logo">Save<span>Media</span></a>
+            <nav>
+                <a href="#how">Как это работает</a>
+                <a href="#tariffs">Тарифы</a>
+                <a href="#tariffs" class="btn-pro-nav">Купить PRO</a>
+            </nav>
         </div>
     </header>
 
     <main>
-        <!-- Форма скачивания -->
-        <section class="downloader-card">
-            <h1>Скачать медиа бесплатно</h1>
-            <p>Вставьте ссылку на видео или фото для загрузки в высоком качестве</p>
-            <div class="input-group">
-                <input type="url" placeholder="Вставьте ссылку сюда..." required>
-                <button type="button">Скачать</button>
-            </div>
+        <!-- Секция загрузки -->
+        <section class="hero-card">
+            <h1>Загрузчик медиафайлов высокого качества</h1>
+            <p>Вставьте ссылку на видео или фото, чтобы сохранить его на устройство без потери качества</p>
+            <form class="downloader-form" onsubmit="event.preventDefault(); alert('Для доступа к пакетной загрузке в 4K качестве перейдите на PRO тариф ниже.');">
+                <input type="url" placeholder="https://..." required>
+                <button type="submit">Скачать</button>
+            </form>
         </section>
 
-        <!-- Блок Рекламы РСЯ -->
-        <div class="ad-wrapper">
-            <span class="ad-label">Реклама</span>
+        <!-- Рекламный блок РСЯ -->
+        <div class="ad-box">
+            <div class="ad-title">Реклама</div>
             <!-- Yandex.RTB R-A-19821194-1 -->
-            <div id="yandex_rtb_R-A-19821194-1" style="width: 100%;"></div>
+            <div id="yandex_rtb_R-A-19821194-1"></div>
             <script>
             window.yaContextCb.push(()=>{
               Ya.Context.AdvManager.render({
@@ -247,25 +383,93 @@
             </script>
         </div>
 
-        <!-- Преимущества сервиса -->
-        <section class="features-grid">
-            <div class="feature-item">
-                <h3>Высокое качество</h3>
-                <p>Сохранение оригинального разрешения видео и аудио файлов.</p>
+        <!-- Описание продукта -->
+        <section id="how" class="info-card">
+            <h2 class="section-title">О сервисе SaveMedia</h2>
+            <p>SaveMedia — это онлайн-инструмент для обработки и быстрой загрузки медиафайлов. Сервис позволяет извлекать видео и звуковые дорожки из открытых источников в интернете без необходимости установки дополнительного ПО.</p>
+            
+            <div class="steps-grid">
+                <div class="step-item">
+                    <div class="step-number">01</div>
+                    <h3>Скопируйте ссылку</h3>
+                    <p>Вставьте URL-адрес нужного медиафайла в строку поиска выше.</p>
+                </div>
+                <div class="step-item">
+                    <div class="step-number">02</div>
+                    <h3>Выберите формат</h3>
+                    <p>Доступна конвертация в MP4, MP3 в разрешении от 720p до 4K Ultra HD.</p>
+                </div>
+                <div class="step-item">
+                    <div class="step-number">03</div>
+                    <h3>Сохраните файл</h3>
+                    <p>Нажмите кнопку «Скачать» и файл сохраняется прямо на ваш ПК или телефон.</p>
+                </div>
             </div>
-            <div class="feature-item">
-                <h3>Без ограничений</h3>
-                <p>Скачивайте любое количество медиафайлов без регистрации.</p>
-            </div>
-            <div class="feature-item">
-                <h3>Быстро и безопасно</h3>
-                <p>Прямая загрузка без сторонних программ и сбора личных данных.</p>
+        </section>
+
+        <!-- Секция тарифов для ЮKassa -->
+        <section id="tariffs">
+            <h2 class="section-title" style="text-align: center; margin-bottom: 24px;">Выберите подходящий тариф</h2>
+            <div class="pricing-grid">
+                <!-- Бесплатный -->
+                <div class="price-card">
+                    <div class="price-header">
+                        <h3>Базовый</h3>
+                        <p style="color: var(--text-muted);">Для редкого использования</p>
+                        <div class="price-amount">0 ₽ <span>/ навсегда</span></div>
+                    </div>
+                    <ul class="price-features">
+                        <li>Качество до 1080p Full HD</li>
+                        <li>Ограничение скорости загрузки</li>
+                        <li>Содержит рекламу</li>
+                        <li>Поштучная загрузка</li>
+                    </ul>
+                    <button class="btn-pay" style="background: #e2e4ea; color: var(--text-main); cursor: default;">Текущий план</button>
+                </div>
+
+                <!-- PRO Тариф -->
+                <div class="price-card featured">
+                    <span class="badge">ПОПУЛЯРНЫЙ</span>
+                    <div class="price-header">
+                        <h3>PRO Доступ</h3>
+                        <p style="color: var(--text-muted);">Безлимитные возможности</p>
+                        <div class="price-amount">199 ₽ <span>/ месяц</span></div>
+                    </div>
+                    <ul class="price-features">
+                        <li>Максимальное качество 4K / 8K / Ultra HD</li>
+                        <li>Высокая скорость (без ограничений)</li>
+                        <li>Полное отсутствие рекламы</li>
+                        <li>Пакетное скачивание в 1 клик</li>
+                        <li>Приоритетная поддержка 24/7</li>
+                    </ul>
+                    <!-- Кнопка оплаты для ЮKassa -->
+                    <a href="https://yookassa.ru/" class="btn-pay">Оформить PRO подписку</a>
+                </div>
             </div>
         </section>
     </main>
 
+    <!-- Юридический футер для ЮKassa -->
     <footer>
-        © 2026 SaveMedia (hookforge.ru). Все права защищены.
+        <div class="footer-container">
+            <div class="footer-info">
+                <p><strong>Самозанятый:</strong> [Укажи свои ФИО, например: Иванов Иван Иванович]</p>
+                <p><strong>ИНН:</strong> [Укажи свой ИНН, например: 616400000000]</p>
+                <p><strong>E-mail для поддержки:</strong> support@hookforge.ru</p>
+                <p>Сервис SaveMedia (hookforge.ru) не хранит медиафайлы на собственных серверах и предоставляет исключительно технический функционал по обработке общедоступных ссылок.</p>
+            </div>
+
+            <div class="footer-links">
+                <a href="#">Публичная оферта</a>
+                <a href="#">Политика конфиденциальности</a>
+                <a href="#">Пользовательское соглашение</a>
+                <a href="#">Оплата и возврат средств</a>
+            </div>
+
+            <div class="footer-copyright">
+                © 2026 SaveMedia (hookforge.ru). Все права защищены.
+            </div>
+        </div>
     </footer>
 
 </body>
