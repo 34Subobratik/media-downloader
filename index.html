@@ -3,485 +3,270 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SaveMedia — Скачать видео без водяных знаков</title>
-    
-    <!-- Подключение Рекламной сети Яндекса (РСЯ) -->
+    <title>SaveMedia — Скачать видео и медиа бесплатно</title>
+    <meta name="description" content="Удобный онлайн-сервис для быстрого скачивания видео и фото в высоком качестве. Без регистрации и сбора данных.">
+
+    <!-- Open Graph (Превью для соцсетей) -->
+    <meta property="og:title" content="SaveMedia — Загрузчик медиафайлов">
+    <meta property="og:description" content="Быстрое скачивание медиафайлов без потери качества.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://hookforge.ru/">
+
+    <!-- Yandex.RTB Загрузчик -->
     <script>window.yaContextCb=window.yaContextCb||[]</script>
     <script src="https://yandex.ru/ads/system/context.js" async></script>
 
     <style>
         :root {
-            --bg: #0d0e12;
-            --surface: #16181f;
-            --surface-hover: #1f222c;
-            --border: rgba(255, 255, 255, 0.08);
-            --border-bright: rgba(255, 255, 255, 0.16);
-            --text: #f0f0f2;
-            --muted: #8b8f9d;
-            --accent: #6366f1;
-            --pro-gold: #f59e0b;
-            --success: #10b981;
+            --bg-color: #f5f6f8;
+            --card-bg: #ffffff;
+            --text-main: #19191a;
+            --text-muted: #76787a;
+            --accent-color: #fc3f1d; /* Акцентный цвет Яндекса */
+            --accent-hover: #e03517;
+            --border-color: #e0e2e8;
+            --shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            --radius: 16px;
         }
 
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, sans-serif;
-            -webkit-font-smoothing: antialiased;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, YandexSans, Helvetica, Arial, sans-serif;
         }
 
         body {
-            background-color: var(--bg);
-            color: var(--text);
-            min-height: 100vh;
+            background-color: var(--bg-color);
+            color: var(--text-main);
             display: flex;
             flex-direction: column;
+            min-height: 100vh;
             align-items: center;
-            justify-content: space-between;
-            padding: 40px 20px 24px;
-        }
-
-        .wrapper {
-            width: 100%;
-            max-width: 540px;
-            margin: 0 auto;
         }
 
         header {
+            width: 100%;
+            background: var(--card-bg);
+            border-bottom: 1px solid var(--border-color);
+            padding: 16px 24px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .header-container {
+            max-width: 900px;
+            width: 100%;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin-bottom: 32px;
         }
 
-        .brand {
+        .logo {
+            font-size: 22px;
             font-weight: 700;
-            font-size: 1.2rem;
-            letter-spacing: -0.02em;
-            color: #fff;
+            color: var(--text-main);
+            text-decoration: none;
             display: flex;
             align-items: center;
             gap: 8px;
         }
 
-        .brand-dot {
-            width: 8px;
-            height: 8px;
-            background: var(--accent);
-            border-radius: 50%;
+        .logo span {
+            color: var(--accent-color);
         }
 
-        .btn-pro-header {
-            background: var(--surface);
-            border: 1px solid var(--border-bright);
-            color: #fff;
-            padding: 8px 14px;
-            border-radius: 8px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            transition: background 0.2s;
+        main {
+            max-width: 800px;
+            width: 100%;
+            padding: 40px 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+            flex: 1;
         }
 
-        .btn-pro-header:hover {
-            background: var(--surface-hover);
+        .downloader-card {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            padding: 32px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+            text-align: center;
         }
 
-        .pro-badge {
-            background: var(--pro-gold);
-            color: #000;
-            font-weight: 800;
-            font-size: 0.65rem;
-            padding: 2px 5px;
-            border-radius: 4px;
-            text-transform: uppercase;
-        }
-
-        .main-card {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            padding: 28px;
-        }
-
-        h1 {
-            font-size: 1.4rem;
-            font-weight: 600;
+        .downloader-card h1 {
+            font-size: 28px;
             margin-bottom: 8px;
-            color: #fff;
-            letter-spacing: -0.01em;
         }
 
-        p.description {
-            color: var(--muted);
-            font-size: 0.9rem;
+        .downloader-card p {
+            color: var(--text-muted);
             margin-bottom: 24px;
-            line-height: 1.4;
+            font-size: 15px;
         }
 
         .input-group {
             display: flex;
-            flex-direction: column;
             gap: 12px;
+            flex-wrap: wrap;
         }
 
-        input[type="text"] {
-            width: 100%;
-            background: rgba(0, 0, 0, 0.25);
-            border: 1px solid var(--border-bright);
-            border-radius: 10px;
-            padding: 14px 16px;
-            color: #fff;
-            font-size: 0.95rem;
+        .input-group input {
+            flex: 1;
+            min-width: 260px;
+            padding: 14px 18px;
+            font-size: 16px;
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
             outline: none;
             transition: border-color 0.2s;
+            background: #fafbfc;
         }
 
-        input[type="text"]:focus {
-            border-color: var(--accent);
-        }
-
-        input[type="text"]::placeholder {
-            color: #555a66;
-        }
-
-        button.btn-submit {
-            width: 100%;
+        .input-group input:focus {
+            border-color: #999;
             background: #fff;
-            color: #000;
+        }
+
+        .input-group button {
+            background: var(--accent-color);
+            color: #fff;
             border: none;
-            border-radius: 10px;
-            padding: 14px;
-            font-size: 0.95rem;
+            padding: 14px 28px;
+            font-size: 16px;
             font-weight: 600;
+            border-radius: 12px;
             cursor: pointer;
-            transition: opacity 0.2s;
+            transition: background 0.2s;
         }
 
-        button.btn-submit:hover {
-            opacity: 0.9;
+        .input-group button:hover {
+            background: var(--accent-hover);
         }
 
-        .pro-upgrade-card {
-            margin-top: 20px;
+        /* Контейнер под рекламу РСЯ */
+        .ad-wrapper {
+            background: var(--card-bg);
+            border-radius: var(--radius);
             padding: 16px;
-            background: rgba(245, 158, 11, 0.05);
-            border: 1px solid rgba(245, 158, 11, 0.2);
-            border-radius: 10px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+            min-height: 250px;
             display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 12px;
-        }
-
-        .pro-upgrade-info h4 {
-            font-size: 0.9rem;
-            color: #fff;
-            font-weight: 600;
-            margin-bottom: 2px;
-        }
-
-        .pro-upgrade-info p {
-            font-size: 0.78rem;
-            color: var(--muted);
-        }
-
-        .btn-upgrade {
-            background: var(--pro-gold);
-            color: #000;
-            padding: 8px 14px;
-            border-radius: 6px;
-            font-size: 0.8rem;
-            font-weight: 700;
-            text-decoration: none;
-            white-space: nowrap;
-        }
-
-        .limit-info {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-top: 20px;
-            font-size: 0.8rem;
-            color: var(--muted);
-            padding-top: 16px;
-            border-top: 1px solid var(--border);
-        }
-
-        #loader {
-            display: none;
-            margin-top: 20px;
-            text-align: center;
-            color: var(--muted);
-            font-size: 0.9rem;
-        }
-
-        #result {
-            display: none;
-            margin-top: 20px;
-            padding: 16px;
-            background: rgba(16, 185, 129, 0.08);
-            border: 1px solid rgba(16, 185, 129, 0.2);
-            border-radius: 10px;
-            text-align: center;
-        }
-
-        .btn-download {
-            display: inline-block;
-            width: 100%;
-            padding: 12px;
-            background: var(--success);
-            color: #fff;
-            text-decoration: none;
-            border-radius: 8px;
-            font-weight: 600;
-            margin-top: 10px;
-        }
-
-        .paywall {
-            display: none;
-            margin-top: 20px;
-            padding: 20px;
-            background: rgba(239, 68, 68, 0.08);
-            border: 1px solid rgba(239, 68, 68, 0.2);
-            border-radius: 12px;
-            text-align: center;
-        }
-
-        .paywall h3 {
-            color: #ef4444;
-            font-size: 1rem;
-            margin-bottom: 6px;
-        }
-
-        .paywall p {
-            color: var(--muted);
-            font-size: 0.85rem;
-            margin-bottom: 14px;
-        }
-
-        /* Контейнеры под рекламу */
-        .ad-container {
-            width: 100%;
-            margin: 24px 0;
-            min-height: 90px;
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px dashed var(--border);
-            border-radius: 12px;
-            display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
-            color: #444;
-            font-size: 0.75rem;
+            overflow: hidden;
         }
 
-        .seo-section {
-            margin-top: 32px;
-            font-size: 0.85rem;
-            color: var(--muted);
-            line-height: 1.6;
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 20px;
-        }
-
-        .seo-section h2 {
-            font-size: 1rem;
-            color: #fff;
+        .ad-label {
+            font-size: 11px;
+            color: #b0b3b8;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            align-self: flex-start;
             margin-bottom: 8px;
         }
 
-        footer {
-            margin-top: 40px;
-            text-align: center;
-            font-size: 0.78rem;
-            color: var(--muted);
-            line-height: 1.6;
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 16px;
         }
 
-        .creator-link {
-            color: var(--text);
-            text-decoration: none;
-            font-weight: 500;
-            border-bottom: 1px solid var(--border-bright);
+        .feature-item {
+            background: var(--card-bg);
+            padding: 20px;
+            border-radius: var(--radius);
+            border: 1px solid var(--border-color);
+        }
+
+        .feature-item h3 {
+            font-size: 16px;
+            margin-bottom: 6px;
+        }
+
+        .feature-item p {
+            font-size: 14px;
+            color: var(--text-muted);
+            line-height: 1.4;
+        }
+
+        footer {
+            width: 100%;
+            text-align: center;
+            padding: 24px;
+            color: var(--text-muted);
+            font-size: 13px;
+            border-top: 1px solid var(--border-color);
+            background: var(--card-bg);
+        }
+
+        @media (max-width: 600px) {
+            .downloader-card {
+                padding: 20px;
+            }
+            .input-group button {
+                width: 100%;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="wrapper">
-        <header>
-            <div class="brand"><span class="brand-dot"></span>SaveMedia</div>
-            <a href="#" id="topPayBtn" target="_blank" class="btn-pro-header">
-                <span class="pro-badge">PRO</span>
-                <span>249 ₽ / мес</span>
-            </a>
-        </header>
 
-        <main class="main-card">
-            <h1>Загрузка видео</h1>
-            <p class="description">Вставьте ссылку на видео из YouTube, TikTok, VK или Instagram Reels.</p>
-            
-            <div class="input-group">
-                <input type="text" id="videoUrl" placeholder="https://...">
-                <button class="btn-submit" onclick="processVideo()">Скачать</button>
-            </div>
-
-            <div id="loader">Обработка ссылки...</div>
-
-            <div id="result">
-                <p style="color: var(--success); font-weight: 600;">Файл готов к сохранению</p>
-                <a id="downloadBtn" class="btn-download" href="#" target="_blank">Сохранить файл</a>
-            </div>
-
-            <div class="paywall" id="paywall">
-                <h3>Дневной лимит исчерпан</h3>
-                <p>Вы использовали 5 бесплатных скачиваний на сегодня. Оформите PRO для снятия всех ограничений.</p>
-                <a href="#" class="btn-upgrade pay-link-node" style="display: block; text-align: center; padding: 12px;">Оформить PRO за 249 ₽</a>
-            </div>
-
-            <div class="pro-upgrade-card" id="proBanner">
-                <div class="pro-upgrade-info">
-                    <h4>Нужен безлимит?</h4>
-                    <p>Скачивайте без дневных ограничений и капч.</p>
-                </div>
-                <a href="#" class="btn-upgrade pay-link-node">Перейти на PRO</a>
-            </div>
-
-            <div class="limit-info">
-                <span>Дневной лимит:</span>
-                <span id="limitBadge" style="color: var(--text); font-weight: 600;">5 из 5 осталось</span>
-            </div>
-        </main>
-
-        <!-- РЕКЛАМНЫЙ БЛОК №1 (Под главной карточкой) -->
-        <div class="ad-container">
-            <div id="yandex_rtb_R-A-1"></div>
-            <script>
-                window.yaContextCb.push(()=>{
-                    Ya.Context.AdvManager.render({
-                        "blockId": "R-A-1", // Заменится на ваш ID из РСЯ
-                        "renderTo": "yandex_rtb_R-A-1"
-                    })
-                })
-            </script>
+    <header>
+        <div class="header-container">
+            <a href="/" class="logo">Save<span>Media</span></a>
         </div>
+    </header>
 
-        <section class="seo-section">
-            <h2>О сервисе и PRO-подписке</h2>
-            <p>SaveMedia — бесплатный онлайн-сервис для быстрой загрузки медиафайлов без потери качества. Каждому пользователю предоставляется 5 бесплатных загрузок в сутки.</p>
-            <p style="margin-top: 10px;"><strong>Цифровая услуга «PRO-подписка» (249 ₽/мес):</strong> снимает суточный лимит и предоставляет безлимитный доступ к сохранению видеофайлов. Активация происходит автоматически сразу после завершения оплаты.</p>
+    <main>
+        <!-- Форма скачивания -->
+        <section class="downloader-card">
+            <h1>Скачать медиа бесплатно</h1>
+            <p>Вставьте ссылку на видео или фото для загрузки в высоком качестве</p>
+            <div class="input-group">
+                <input type="url" placeholder="Вставьте ссылку сюда..." required>
+                <button type="button">Скачать</button>
+            </div>
         </section>
 
-        <!-- РЕКЛАМНЫЙ БЛОК №2 (Над подвалом) -->
-        <div class="ad-container">
-            <div id="yandex_rtb_R-A-2"></div>
+        <!-- Блок Рекламы РСЯ -->
+        <div class="ad-wrapper">
+            <span class="ad-label">Реклама</span>
+            <!-- Yandex.RTB R-A-19821194-1 -->
+            <div id="yandex_rtb_R-A-19821194-1" style="width: 100%;"></div>
             <script>
-                window.yaContextCb.push(()=>{
-                    Ya.Context.AdvManager.render({
-                        "blockId": "R-A-2", // Заменится на ваш ID из РСЯ
-                        "renderTo": "yandex_rtb_R-A-2"
-                    })
-                })
+            window.yaContextCb.push(()=>{
+              Ya.Context.AdvManager.render({
+                "blockId": "R-A-19821194-1",
+                "renderTo": "yandex_rtb_R-A-19821194-1"
+              })
+            })
             </script>
         </div>
 
-        <footer>
-            <p>Автор проекта: <a href="https://t.me/+jYr3-bjDM8xlODIy" target="_blank" class="creator-link">Telegram-канал</a></p>
-            <p style="margin-top: 4px;">Самозанятый (Плательщик НПД) | misha24xm1nd@gmail.com</p>
-            <p style="margin-top: 2px;">© SaveMedia. Все права защищены.</p>
-        </footer>
-    </div>
+        <!-- Преимущества сервиса -->
+        <section class="features-grid">
+            <div class="feature-item">
+                <h3>Высокое качество</h3>
+                <p>Сохранение оригинального разрешения видео и аудио файлов.</p>
+            </div>
+            <div class="feature-item">
+                <h3>Без ограничений</h3>
+                <p>Скачивайте любое количество медиафайлов без регистрации.</p>
+            </div>
+            <div class="feature-item">
+                <h3>Быстро и безопасно</h3>
+                <p>Прямая загрузка без сторонних программ и сбора личных данных.</p>
+            </div>
+        </section>
+    </main>
 
-    <script>
-        const MAX_DAILY_LIMIT = 5;
+    <footer>
+        © 2026 SaveMedia (hookforge.ru). Все права защищены.
+    </footer>
 
-        // Авто-активация PRO при возврате с оплаты
-        (function checkPaymentSuccess() {
-            const urlParams = new URLSearchParams(window.location.search);
-            if (urlParams.get('payment') === 'success') {
-                const data = { date: new Date().toDateString(), count: 0, isPro: true };
-                localStorage.setItem('savemedia_data', JSON.stringify(data));
-                window.history.replaceState({}, document.title, window.location.pathname);
-                alert("🎉 Оплата прошла успешно! PRO-статус активирован.");
-            }
-        })();
-
-        function getUserData() {
-            const today = new Date().toDateString();
-            const data = JSON.parse(localStorage.getItem('savemedia_data') || '{}');
-            if (data.date !== today && !data.isPro) return { date: today, count: 0, isPro: false };
-            return data;
-        }
-
-        function updateBadge() {
-            const data = getUserData();
-            const badge = document.getElementById('limitBadge');
-            const topBtn = document.getElementById('topPayBtn');
-            const proBanner = document.getElementById('proBanner');
-
-            if (data.isPro) {
-                badge.innerText = "Безлимит (PRO)";
-                badge.style.color = "var(--success)";
-                if (topBtn) topBtn.style.display = "none";
-                if (proBanner) proBanner.style.display = "none";
-            } else {
-                const left = MAX_DAILY_LIMIT - data.count;
-                badge.innerText = `${left > 0 ? left : 0} из ${MAX_DAILY_LIMIT} осталось`;
-            }
-        }
-
-        async function processVideo() {
-            const url = document.getElementById('videoUrl').value.trim();
-            const loader = document.getElementById('loader');
-            const result = document.getElementById('result');
-            const paywall = document.getElementById('paywall');
-            const downloadBtn = document.getElementById('downloadBtn');
-
-            if (!url) return alert('Вставьте ссылку на видео');
-
-            let data = getUserData();
-            if (!data.isPro && data.count >= MAX_DAILY_LIMIT) {
-                paywall.style.display = 'block';
-                result.style.display = 'none';
-                return;
-            }
-
-            loader.style.display = 'block';
-            result.style.display = 'none';
-            paywall.style.display = 'none';
-
-            try {
-                const res = await fetch('https://api.cobalt.tools/api/json', {
-                    method: 'POST',
-                    headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ url: url })
-                });
-                const resData = await res.json();
-
-                if (resData.url) {
-                    downloadBtn.href = resData.url;
-                    result.style.display = 'block';
-                    if (!data.isPro) {
-                        data.count += 1;
-                        localStorage.setItem('savemedia_data', JSON.stringify(data));
-                        updateBadge();
-                    }
-                } else {
-                    alert('Не удалось получить ссылку на файл.');
-                }
-            } catch (e) {
-                alert('Ошибка при обработке запроса.');
-            } finally {
-                loader.style.display = 'none';
-            }
-        }
-
-        updateBadge();
-    </script>
 </body>
 </html>
